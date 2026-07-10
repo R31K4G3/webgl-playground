@@ -70,7 +70,7 @@ class WebGL2Wrapper {
         const errorLog = gl.getShaderInfoLog(shader);
         gl.deleteShader(shader);
         try {
-            this.#onInfo(errorLog);
+            this.#onInfo(errorLog ?? "An error occurred");
         } catch(e) {
             console.error(e);
         }
@@ -88,7 +88,7 @@ class WebGL2Wrapper {
         const errorLog = gl.getProgramInfoLog(program);
         gl.deleteProgram(program);
         try {
-            this.#onInfo(errorLog);
+            this.#onInfo(errorLog ?? "An error occurred");
         } catch(e) {
             console.error(e);
         }
