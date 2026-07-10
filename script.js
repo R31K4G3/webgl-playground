@@ -283,9 +283,9 @@ function main() {
         }, 1000);
     });
     fsDisplay.scrollTo(fsSource.scrollLeft, fsSource.scrollTop);
-    fsSource.addEventListener("scroll", () => {
-        fsDisplay.scrollTo(fsSource.scrollLeft, fsSource.scrollTop);
-    });
+    const syncScroll = () => void fsDisplay.scrollTo(fsSource.scrollLeft, fsSource.scrollTop);
+    fsSource.addEventListener("scroll", syncScroll);
+    setInterval(syncScroll, 10000);
     // fsSource.addEventListener("keydown", e => {
     //     if (e.key === "z" && e.altKey) {
     //         e.preventDefault();
