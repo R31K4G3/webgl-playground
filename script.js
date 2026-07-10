@@ -88,7 +88,7 @@ class WebGL2Wrapper {
         const errorLog = gl.getProgramInfoLog(program);
         gl.deleteProgram(program);
         try {
-            this.#onInfo(errorLog ?? "An error occurred");
+            this.#onInfo(errorLog ?? "An error occurred\n");
         } catch(e) {
             console.error(e);
         }
