@@ -239,6 +239,9 @@ function main() {
         let t = fsSource.value;
         fsDisplay.textContent = "";
         parenthMode = 0;
+        const nbspSpan = document.createElement("span");
+        nbspSpan.textContent = "\u200b";
+        fsDisplay.appendChild(nbspSpan);
         outer: while (t) {
             for (const s of stylizer) {
                 const m = s.regexGen().exec(t)?.[0];
@@ -265,6 +268,9 @@ function main() {
                 break;
             }
         }
+        const span = document.createElement("span");
+        span.textContent = "\u200b";
+        fsDisplay.appendChild(span);
     }
 
     updateFsDisplay();
