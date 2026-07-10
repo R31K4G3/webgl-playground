@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>WebGL</title>
+        <link rel="stylesheet" href="./style.css">
+    </head>
+    <body>
+        <div style="display: flex; line-height: 0px">
+            <div id="left-half"><canvas id="webgl-canvas"></canvas></div>
+            <div id="right-half">
+                <div id="upper-right">
+                    <div id="fragment-shader-display"></div>
+                    <textarea id="webgl-fragment-shader" autocomplete="off" spellcheck="false">precision mediump float;
+uniform highp float t; // time
+uniform vec2  r; // resolution
+
+const float PI = 3.141592653589793;
+const float E = 2.718281828459045;
+
+vec3 hu(float t) {
+    vec3 k = vec3(t);
+    k += vec3(1.0, 2.0 / 3.0, 1.0 / 3.0);
+    k = fract(k);
+    k *= 6.0;
+    k -= vec3(3.0);
+    k = abs(k);
+    k -= vec3(1.0);
+    k = clamp(k, 0.0, 1.0);
+    return k;
+}
+
+void main(void) {
+    vec2 p = (gl_FragCoord.xy * 2.0 - r) / min(r.x, r.y);
+    vec3 destColor = vec3(0.0);
+    float u = t + 100.0;
+    for (int i = 0; i &lt; 100; i++) {
+        float j = (float(i) / 5.0 + 1.0) / 8.0;
+        float x = cos((E + 1.0 / E) / 3.0 * u * pow(j, 1.001)) / 2.0 + 0.5;
+        float y = sin(PI / 3.0 * u * pow(j, 1.02)) / 2.0 + 0.5;
+        float ringSize = 0.05 * (0.9 + 0.4 * sin(pow(j + 0.324324, 1.2)));
+        vec3 color = hu(float(i) / 20.0);
+        float brightness = 0.00129;
+        destColor += color * brightness / abs(length(p - log(x) * vec2(cos(y * 2.0 * PI), sin(y * 2.0 * PI))) - ringSize);
+    }
+    if (sin(9.0 * u + (3.0 * p.y + p.x) * 10.0) / 10.0 &lt; 3.0 * p.x - p.y) {
+        destColor += 0.15 * hu(u / 3.0);
+    }
+    if (sin(17.0 * u + (p.y + 2.5 * p.x) * 10.0) / 10.0 &lt; p.x - 2.5 * p.y) {
+        destColor += 0.25 * hu(0.8364 + u / 2.29473);
+    }
+    gl_FragColor = vec4(destColor, 1.0);
+}</textarea>
+                </div>
+                <div id="lower-right"><div id="webgl-log"></div></div>
+            </div>
+        </div>
+        <script type="module" src="./script.js"></script>
+    </body>
+</html>

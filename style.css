@@ -1,0 +1,92 @@
+html, body {
+    margin: 0px;
+    padding: 0px;
+}
+#left-half {
+    width: 35vw;
+    height: 100vh;
+}
+#webgl-canvas {
+    width: 100%;
+    height: 100%;
+}
+#right-half {
+    width: 65vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+#upper-right {
+    width: 65vw;
+    height: 65vh;
+    position: relative;
+    border-left: 1px solid #FFF;
+    background-color: #1F1F1F;
+    box-sizing: border-box;
+}
+#lower-right {
+    width: 65vw;
+    height: 35vh;
+    padding: 0.3em;
+    position: relative;
+    color: #CCCCCC;
+    border-top: 1px solid #FFF;
+    border-left: 1px solid #FFF;
+    background-color: #181818;
+    box-sizing: border-box;
+    font-family: Consolas, 'Courier New', monospace;
+    font-weight: normal;
+    font-size: 14px;
+    font-variation-settings: normal;
+    line-height: 19px;
+    letter-spacing: 0px;
+    white-space: pre-wrap;
+    word-break: break-all;
+    overflow-wrap: anywhere;
+}
+#fragment-shader-display {
+    cursor: none;
+    overflow: scroll;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
+    padding: 0.3em;
+    font-family: Consolas, 'Courier New', monospace;
+    font-weight: normal;
+    font-size: 14px;
+    font-variation-settings: normal;
+    line-height: 19px;
+    letter-spacing: 0px;
+    white-space: pre;
+}
+#webgl-fragment-shader {
+    caret-color: #FFFFFF;
+    resize: none;
+    border: 0px;
+    background-color: #FFFFFF00;
+    overflow: scroll;
+    color: #FFFFFF00;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
+    padding: 0.3em;
+    font-family: Consolas, "Courier New", monospace;
+    font-weight: normal;
+    font-size: 14px;
+    font-variation-settings: normal;
+    line-height: 19px;
+    letter-spacing: 0px;
+    white-space: pre;
+}
+#webgl-log {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
