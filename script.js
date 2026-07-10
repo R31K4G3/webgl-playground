@@ -131,7 +131,7 @@ class WebGL2Wrapper {
     }
 }
 
-~function() {
+function main() {
     /** @type {HTMLCanvasElement} */
     const canvas = document.getElementById("webgl-canvas");
 
@@ -292,4 +292,6 @@ class WebGL2Wrapper {
     //         fsDisplay.style.whiteSpace = fsSource.style.whiteSpace = fsSource.style.whiteSpace === "pre" ? "pre-wrap" : "pre";
     //     }
     // });
-}();
+}
+
+if (document.readyState === "complete") window.addEventListener("load", main); else main();
