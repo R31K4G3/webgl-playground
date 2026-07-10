@@ -37,7 +37,7 @@ void main(void) {
     float u = t + 100.0;
     for (int i = 0; i &lt; 100; i++) {
         float j = (float(i) / 5.0 + 1.0) / 8.0;
-        float x = cos((E + 1.0 / E) / 3.0 * u * pow(j, 1.001)) / 2.0 + 0.5;
+        float x = cos((E + 1.0 / E) / 3.0 * u * pow(j, 1.001)) / 2.0 + 0.5 + 0.000000000000001;
         float y = sin(PI / 3.0 * u * pow(j, 1.02)) / 2.0 + 0.5;
         float ringSize = 0.05 * (0.9 + 0.4 * sin(pow(j + 0.324324, 1.2)));
         vec3 color = hu(float(i) / 20.0);
