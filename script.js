@@ -148,12 +148,12 @@ function main() {
         glLog.textContent += s;
     });
 
-    const resizeToHalfWindow = () => {
+    function resizeToHalfWindow() {
         const rc = canvas.getBoundingClientRect();
         canvas.width = rc.width;
         canvas.height = rc.height;
         gl.setViewportSize(canvas.width, canvas.height);
-    };
+    }
     window.addEventListener("resize", resizeToHalfWindow);
     resizeToHalfWindow();
 
@@ -166,12 +166,12 @@ function main() {
         const ctrler = new AbortController();
         const { signal } = ctrler;
 
-        const loop = async () => {
+        async function loop() {
             while (!signal.aborted) {
                 const now = await new Promise(r => requestAnimationFrame(r));
                 gl.draw(now / 1000, canvas.width, canvas.height);
             }
-        };
+        }
         loop();
 
         return ctrler;
