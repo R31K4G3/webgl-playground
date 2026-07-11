@@ -179,57 +179,57 @@ function main() {
     }
 
     /**
-     * @type {{ regexGen(): RegExp, stylize(style: CSSStyleDeclaration): void }[]}
+     * @type {{ regexGen(): RegExp, stylize(token: string, style: CSSStyleDeclaration): void }[]}
      */
     const stylizer = [{
         regexGen: () => /^\/\/[^\n\r]*/v,
-        stylize(style) {
+        stylize(_token, style) {
             style.color = "#6A9955";
         },
     }, {
         regexGen: () => /^\/\*[\S\s]*?\*\//v,
-        stylize(style) {
+        stylize(_token, style) {
             style.color = "#6A9955";
         },
     }, {
         regexGen: () => /^[\x09\x0A\x0B\x0C\x0D\x20]+/v,
-        stylize(_style) {
+        stylize(_token, _style) {
         },
     }, {
         regexGen: () => /^\b(?:samplerCubeArrayShadow|sampler1DArrayShadow|sampler2DArrayShadow|sampler2DRectShadow|isampler2DMSArray|usampler2DMSArray|samplerCubeShadow|isamplerCubeArray|usamplerCubeArray|sampler2DMSArray|samplerCubeArray|sampler1DShadow|isampler1DArray|usampler1DArray|sampler2DShadow|isampler2DArray|usampler2DArray|iimage2DMSArray|uimage2DMSArray|iimageCubeArray|uimageCubeArray|sampler1DArray|sampler2DArray|isampler2DRect|usampler2DRect|isamplerBuffer|usamplerBuffer|image2DMSArray|imageCubeArray|noperspective|sampler2DRect|samplerBuffer|iimage1DArray|uimage1DArray|iimage2DArray|uimage2DArray|sampler3DRect|isampler2DMS|usampler2DMS|isamplerCube|usamplerCube|image1DArray|image2DArray|iimage2DRect|uimage2DRect|iimageBuffer|uimageBuffer|atomic_uint|sampler2DMS|samplerCube|image2DRect|imageBuffer|subroutine|isampler1D|usampler1D|isampler2D|usampler2D|isampler3D|usampler3D|iimage2DMS|uimage2DMS|iimageCube|uimageCube|attribute|writeonly|invariant|precision|sampler1D|sampler2D|sampler3D|image2DMS|imageCube|partition|interface|namespace|coherent|volatile|restrict|readonly|centroid|continue|iimage1D|uimage1D|iimage2D|uimage2D|iimage3D|uimage3D|template|resource|noinline|external|unsigned|uniform|varying|precise|default|discard|dmat2x2|dmat2x3|dmat2x4|dmat3x2|dmat3x3|dmat3x4|dmat4x2|dmat4x3|dmat4x4|mediump|image1D|image2D|image3D|typedef|buffer|shared|layout|smooth|sample|switch|double|return|mat2x2|mat2x3|mat2x4|mat3x2|mat3x3|mat3x4|mat4x2|mat4x3|mat4x4|struct|common|active|inline|public|static|extern|superp|output|filter|sizeof|const|patch|break|while|inout|false|float|ivec2|ivec3|ivec4|bvec2|bvec3|bvec4|uvec2|uvec3|uvec4|dvec2|dvec3|dvec4|dmat2|dmat3|dmat4|highp|class|union|short|fixed|input|hvec2|hvec3|hvec4|fvec2|fvec3|fvec4|using|flat|case|else|void|bool|true|vec2|vec3|vec4|uint|mat2|mat3|mat4|lowp|enum|this|goto|long|half|cast|for|out|int|asm|do|if|in)\b/v,
-        stylize(style) {
+        stylize(_token, style) {
             style.color = "#569CD6";
         },
     }, {
         regexGen: () => /^[A-Za-z_][A-Za-z\d_]*(?=[\x09\x0A\x0B\x0C\x0D\x20]*\()/v,
-        stylize(style) {
+        stylize(_token, style) {
             style.color = "#DCDCAA";
         },
     }, {
         regexGen: () => /^[A-Za-z_][A-Za-z\d_]*/v,
-        stylize(style) {
+        stylize(_token, style) {
             style.color = "#9CDCFE";
         },
     }, {
         regexGen: () => /^(?:0[xX][\dA-Fa-f]+[uU]?|\d+[eE][+\-]?\d+[fF]?|(?:\d+\.\d*|\.\d+)(?:[eE][+\-]?\d+)?[fF]?|[1-9]\d*[uU]?|0[0-7]*[uU]?)/v,
-        stylize(style) {
+        stylize(_token, style) {
             style.color = "#B5CEA8";
         },
     }, {
         regexGen: () => /^[.+\-\/*%\<\>^\|\&~=!:;,?]/v,
-        stylize(style) {
+        stylize(_token, style) {
             style.color = "#CCCCCC";
         },
     }, {
         regexGen: () => /^[\)\}\]]/v,
-        stylize(style) {
+        stylize(_token, style) {
             if (0 < parenthMode) parenthMode--;
             else parenthMode = 3 - 1;
             style.color = ["#FFD700", "#DA70D6", "#179FFF"][parenthMode];
         },
     }, {
         regexGen: () => /^[\(\{\[]/v,
-        stylize(style) {
+        stylize(_token, style) {
             style.color = ["#FFD700", "#DA70D6", "#179FFF"][parenthMode];
             parenthMode++;
             parenthMode %= 3;
@@ -246,14 +246,13 @@ function main() {
         outer: while (t) {
             for (const s of stylizer) {
                 const m = s.regexGen().exec(t)?.[0];
-                if (m) {
-                    const span = document.createElement("span");
-                    span.textContent = m;
-                    s.stylize(span.style);
-                    fsDisplay.appendChild(span);
-                    t = t.slice(m.length, t.length);
-                    continue outer;
-                }
+                if (!m) continue;
+                const span = document.createElement("span");
+                span.textContent = m;
+                s.stylize(m, span.style);
+                fsDisplay.appendChild(span);
+                t = t.slice(m.length, t.length);
+                continue outer;
             }
             const m = t[Symbol.iterator]().next().value;
             if (m) {
@@ -264,7 +263,6 @@ function main() {
                 span.style.backgroundColor = "#631616";
                 fsDisplay.appendChild(span);
                 t = t.slice(m.length, t.length);
-                continue;
             } else {
                 break;
             }
