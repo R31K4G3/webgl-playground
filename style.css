@@ -45,7 +45,7 @@ html, body {
     overflow-wrap: anywhere;
 }
 #fragment-shader-display {
-    cursor: none;
+    pointer-events: none;
     overflow: scroll;
     position: absolute;
     top: 0;
