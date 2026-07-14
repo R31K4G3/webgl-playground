@@ -46,6 +46,7 @@ html, body {
 }
 #fragment-shader-display {
     pointer-events: none;
+    user-select: none;
     overflow: scroll;
     position: absolute;
     top: 0;
