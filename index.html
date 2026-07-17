@@ -20,15 +20,7 @@ const float PI = 3.141592653589793;
 const float E = 2.718281828459045;
 
 vec3 hu(float t) {
-    vec3 k = vec3(t);
-    k += vec3(1.0, 2.0 / 3.0, 1.0 / 3.0);
-    k = fract(k);
-    k *= 6.0;
-    k -= vec3(3.0);
-    k = abs(k);
-    k -= vec3(1.0);
-    k = clamp(k, 0.0, 1.0);
-    return k;
+    return clamp(6.0 * abs(fract(t + vec3(0.0, -1.0 / 3.0, 1.0 / 3.0)) - 0.5) - 1.5, 0.0, 1.0);
 }
 
 void main(void) {
